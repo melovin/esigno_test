@@ -15,13 +15,16 @@
                 <button :disabled="this.disable" type="button" @click="submit">Pokračovat</button>
             </div>
         </div>
+        <div class="bottom">
+            <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
+            <div class="inUse">
+                <img src="@/assets/in_use.svg" />
+                <p>Všechny systémy v provozu</p>
+            </div>
+        </div>
     </div>
 </template>
 <script>
-// $(window).on('beforeunload', function(){
-//     socket.close();
-// });
-
 import {validateEmail} from "@/services/user-service"
 export default {
     emits: [
@@ -66,6 +69,20 @@ export default {
 <style scoped>
 /*font-family: 'Inter', sans-serif;*/
 /*font-family: 'Nunito Sans', sans-serif;*/
+.bottom .inUse{
+    color: #409230;
+    display: flex;
+    gap: 4px;
+}
+.bottom{
+    margin-left: 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    display: flex;
+    gap: 60px;
+    position: absolute;
+    bottom: 32px;
+}
 #error{
     color: red;
     font-family: 'Inter', sans-serif;
@@ -77,6 +94,7 @@ export default {
     height: 100%;
     margin-left: auto;
     margin-right: auto;
+    
 }
 .content{
     display: flex;
