@@ -8,12 +8,13 @@
             <p class="desc">Na e-mail Vám bude zaslán ověřovací kód. Po ověření <br/>prosím pokračujte v dalších krocích registrace.</p>
             <div>
                 <label for="email">E-mail</label>
-                <input autocomplete="on" type="email" name="email" id="email" v-model="email" />
+                <input autocomplete="on" type="email" name="email" id="email" v-model="email" @keydown.enter="onEnter" />
                 <p id="error"></p>
             </div>
             <div>
                 <button :disabled="this.disable" type="button" @click="submit">Pokračovat</button>
             </div>
+            <infobox v-if="this.showModal" @closemodal="this.showModal=false" />
         </div>
         <div class="bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
@@ -26,14 +27,19 @@
 </template>
 <script>
 import {validateEmail} from "@/services/user-service"
+import infobox from "./infobox.vue";
 export default {
     emits: [
         'close'
     ],
+    components:{
+        infobox
+    },
     data(){
         return{
             email: "",
-            disable: true
+            disable: true,
+            showModal:false
         }
     },
     watch: {
@@ -43,6 +49,7 @@ export default {
             else
                 this.disable = true;
             document.getElementById("error").innerText = "";
+            this.showModal = false;
         }
     },
     methods:{
@@ -57,11 +64,17 @@ export default {
                     window.sessionStorage.setItem("email", this.email)
                     this.$emit('close', this.email)
                 }
+                else if(result == "Email already used")
+                    this.showModal = true;
                 else
                     document.getElementById("error").innerText = result;
             }
             else
-                console.log("nene");
+                document.getElementById("error").innerText = "E-mail je ve špatném formátu.";
+                 
+        },
+        onEnter: function(){
+            this.submit();
         }
     }
 }
@@ -135,7 +148,7 @@ a, a:visited{
     color: #327DDA;
 }
 input{
-    height: 30px;
+    height: 35px;
     border: solid 1px #BDBDBD;
     border-radius: 4px;
     padding: 0;

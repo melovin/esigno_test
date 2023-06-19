@@ -1,7 +1,7 @@
 <template lang="cs">
     <Reg-Email v-if="this.stepp == 1" @close="moveNext" />
-    <Reg-Verification v-else-if="this.stepp == 2" @close="moveNext" />
-    <Reg-Passwd v-else-if="this.stepp == 3" @close="moveNext" />
+    <Reg-Verification v-else-if="this.stepp == 2" @close="moveNextVerified" />
+    <Reg-Passwd :emailVerified="this.emailVerified" v-else-if="this.stepp == 3" @close="moveNext" @verify="verify" />
 </template>
 <script>
 import RegEmail from '@/components/RegEmail.vue';
@@ -15,7 +15,8 @@ export default {
     },
     data(){
         return{
-            stepp: null
+            stepp: null,
+            emailVerified: false
         }
     },
     created(){
@@ -23,8 +24,19 @@ export default {
     },
     methods:{
         moveNext(info){
-            console.log(info)
-            window.sessionStorage.setItem("step", ++this.stepp)
+            window.sessionStorage.setItem("step", ++this.stepp);
+            this.stepp = window.sessionStorage.getItem("step");
+        },
+        moveNextVerified(info){
+            this.moveNext(info);
+            this.emailVerified = info;
+        },
+        verify()
+        {
+            if(window.sessionStorage.getItem("email"))
+                window.sessionStorage.setItem("step","2");
+            else
+                window.sessionStorage.setItem("step","1");
             this.stepp = window.sessionStorage.getItem("step");
         }
     }

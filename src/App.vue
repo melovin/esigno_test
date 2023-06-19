@@ -25,8 +25,8 @@ html, body{
   height: 100%;
 }
 .otp-input {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 70px;
   padding: 5px;
   margin: 0 10px;
   font-size: 20px;
@@ -35,14 +35,13 @@ html, body{
   text-align: center;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
+  font-size: 32px;
 }
 .otp-input:focus{
   outline: none;
 }
 /* Background colour of an input field with value */
-.otp-input.is-complete {
-  background-color: #e4e4e4;
-}
+
 .otp-input::-webkit-inner-spin-button,
 .otp-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -52,5 +51,11 @@ input::placeholder {
   font-size: 15px;
   text-align: center;
   font-weight: 600;
+}
+.error{
+  border: 1px red solid;
+}
+.success{
+  border: 1px #409230 solid;
 }
 </style>
