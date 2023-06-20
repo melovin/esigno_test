@@ -18,7 +18,7 @@
             </div>
             <p class="desc">Děkujeme za vaše ověření. Nyní si můžete nastavit heslo. <br/> Dbejte prosím, aby heslo bylo dostatečně silné a <br/> neobsahovalo vaše iniciály či jiné snadno uhodnutelné slova.</p>
             <div>
-                <label for="password">Heslo</label>
+                <label for="passwd">Heslo</label>
                 <div class="bcg">
                     <input autocomplete="on" :type="this.type" name="password" id="passwd" v-model="passwd" @keydown.enter="onEnter" />
                     <img id="visibilityIcon" src="passwd/passwd_invisible.svg" @click="changeVisibility"/>
@@ -27,24 +27,24 @@
             </div>
             <ul>
                 <li>
-                    <img src="passwd/passwd_gray.svg"/>
-                    <p>Obsahuje alespoň 8 znaků</p>
+                    <img src="passwd/passwd_gray.svg" id="1img"/>
+                    <p id="1req">Obsahuje alespoň 8 znaků</p>
                 </li>
                 <li>
-                    <img src="passwd/passwd_gray.svg"/>
-                    <p>Obsahuje jak malá písmena (a-z), tak velká (A-Z)</p>
+                    <img src="passwd/passwd_gray.svg" id="2img"/>
+                    <p id="2req">Obsahuje jak malá písmena (a-z), tak velká (A-Z)</p>
                 </li>
                 <li>
-                    <img src="passwd/passwd_gray.svg"/>
-                    <p>Obsahuje alespoň jednu číslici (0-9)</p>
+                    <img src="passwd/passwd_gray.svg" id="3img"/>
+                    <p id="3req">Obsahuje alespoň jednu číslici (0-9)</p>
                 </li>
                 <li>
-                    <img src="passwd/passwd_gray.svg"/>
-                    <p>Obsahuje alespoň jeden speciální znak (@, #, /)</p>
+                    <img src="passwd/passwd_gray.svg" id="4img" />
+                    <p id="4req">Obsahuje alespoň jeden speciální znak (@, #, /)</p>
                 </li>
                 <li>
-                    <img src="passwd/passwd_gray.svg"/>
-                    <p>Neobsahuje Vaši e-mailovou adresu</p>
+                    <img src="passwd/passwd_gray.svg" id="5img"/>
+                    <p id="5req">Neobsahuje Vaši e-mailovou adresu</p>
                 </li>
                 <!-- there is no way to check this, info about account is on next the step -->
                 <!-- <li> 
@@ -66,7 +66,6 @@
     </div>
 </template>
 <script>
-
 export default {
     props: [
         'emailVerified'
@@ -81,20 +80,74 @@ export default {
             verified: this.emailVerified,
             type: "password",
             disable: true,
-            accetable: false
+            accetable: false,
         }
     },
     watch: {
         passwd(value){
             //regex na heslo
-            const regex = /^[^()]{8,}$/;
-            var string = '[A-Z]+[a-z]+[0-9]+[@#$%^&+=]+[^'+ window.sessionStorage.getItem("email") +'].{8,}'
-            const regex2 = new RegExp(string, 'g')
-            this.accetable = regex2.test(value);
-            if(this.accetable)
-                this.disable = false
-            else 
+            this.disable = false
+            let pattern = /^[^ ]{8,}$/g;
+            if(pattern.test(value))
+            {
+                document.getElementById("1req").style.color = 'green';
+                document.getElementById("1img").src = 'passwd/passwd_green.svg';
+
+            }
+            else{
+                document.getElementById("1req").style.color = '#888888';
+                document.getElementById("1img").src = 'passwd/passwd_gray.svg';
                 this.disable = true
+            }
+            pattern = /(?=.*[A-Z])(?=.*[a-z])/g;
+            if(pattern.test(value))
+            {
+                document.getElementById("2req").style.color = 'green';
+                document.getElementById("2img").src = 'passwd/passwd_green.svg';
+            }
+            else{
+                document.getElementById("2req").style.color = '#888888';
+                document.getElementById("2img").src = 'passwd/passwd_gray.svg';
+                this.disable = true
+            }
+            pattern = /(?=.*[0-9])/g;
+            if(pattern.test(value))
+            {
+                document.getElementById("3req").style.color = 'green';
+                document.getElementById("3img").src = 'passwd/passwd_green.svg';
+            }
+            else{
+                document.getElementById("3req").style.color = '#888888';
+                document.getElementById("3img").src = 'passwd/passwd_gray.svg';
+                this.disable = true
+            }
+            pattern = /(?=.*[`´!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~])/g;
+            if(pattern.test(value))
+            {
+                document.getElementById("4req").style.color = 'green';
+                document.getElementById("4img").src = 'passwd/passwd_green.svg';
+
+            }
+            else{
+                document.getElementById("4req").style.color = '#888888';
+                document.getElementById("4img").src = 'passwd/passwd_gray.svg';
+                this.disable = true
+            }           
+            if(value != "" && !value.includes(window.sessionStorage.getItem("email")))
+            {
+                document.getElementById("5req").style.color = 'green';
+                document.getElementById("5img").src = 'passwd/passwd_green.svg';
+
+            }
+            else{
+                document.getElementById("5req").style.color = '#888888';
+                document.getElementById("5img").src = 'passwd/passwd_gray.svg';
+                this.disable = true
+            }
+            // if(this.accetable)
+            //     this.disable = false
+            // else 
+            //     this.disable = true
             document.getElementById("error").innerText = "";
         }
     },
@@ -161,9 +214,6 @@ img{
     margin-left: -40px;
     cursor: pointer;
 }
-input[type="password"] {
-    -webkit-text-security: square;
-  }
 li{
     display: flex;
     font-family: 'Inter', sans-serif;
