@@ -1,16 +1,16 @@
 <template lang="cs">
-    <div class="content" v-if="verified">
-        <div class="error">
+    <div class="content" v-if="!verified">
+        <div class="errorVerif">
             <div class="errInfo">
                 <img id="status" src="status/status_mailError.svg" alt="status icon"/>
                 <p id="message">Ověřte prosím nejprve svůj e-mail.</p>       
             </div>
-            <div>
-                <button :disabled="this.disable" type="button" @click="exit">Ověřit e-mail</button>
+            <div class="verifBtn">
+                <button type="button" @click="exit">Ověřit e-mail</button>
             </div>
         </div>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" v-if="verified">
         <div class="maincontent">
             <div class="heading">
                 <h2>Tvorba hesla</h2>
@@ -66,10 +66,8 @@
     </div>
 </template>
 <script>
+import { verifyCode, setPassword } from '@/services/user-service';
 export default {
-    props: [
-        'emailVerified'
-    ],
     emits: [
         'close',
         'verify'
@@ -77,88 +75,43 @@ export default {
     data(){
         return{
             passwd: "",
-            verified: this.emailVerified,
+            verified: true,
             type: "password",
             disable: true,
             accetable: false,
         }
     },
+    async created()
+    {
+        const result = await verifyCode({code: "0000"}, window.sessionStorage.getItem("email"));
+        if(result !== "Email already verified")
+            this.verified = false;
+
+    },
     watch: {
         passwd(value){
             //regex na heslo
             this.disable = false
-            let pattern = /^[^ ]{8,}$/g;
-            if(pattern.test(value))
-            {
-                document.getElementById("1req").style.color = 'green';
-                document.getElementById("1img").src = 'passwd/passwd_green.svg';
+            this.accetable = true;
 
-            }
-            else{
-                document.getElementById("1req").style.color = '#888888';
-                document.getElementById("1img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-            }
+            let pattern = /^.{8,}$/g;
+            this.checkPassword(pattern.test(value), 1)
+
             pattern = /(?=.*[A-Z])(?=.*[a-z])/g;
-            if(pattern.test(value))
-            {
-                document.getElementById("2req").style.color = 'green';
-                document.getElementById("2img").src = 'passwd/passwd_green.svg';
-            }
-            else{
-                document.getElementById("2req").style.color = '#888888';
-                document.getElementById("2img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-            }
+            this.checkPassword(pattern.test(value), 2)
+
             pattern = /(?=.*[0-9])/g;
-            if(pattern.test(value))
-            {
-                document.getElementById("3req").style.color = 'green';
-                document.getElementById("3img").src = 'passwd/passwd_green.svg';
-            }
-            else{
-                document.getElementById("3req").style.color = '#888888';
-                document.getElementById("3img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-            }
+            this.checkPassword(pattern.test(value), 3)
+
             pattern = /(?=.*[`´!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~])/g;
-            if(pattern.test(value))
-            {
-                document.getElementById("4req").style.color = 'green';
-                document.getElementById("4img").src = 'passwd/passwd_green.svg';
+            this.checkPassword(pattern.test(value), 4)
 
-            }
-            else{
-                document.getElementById("4req").style.color = '#888888';
-                document.getElementById("4img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-            }           
-            if(value != "" && !value.includes(window.sessionStorage.getItem("email")))
-            {
-                document.getElementById("5req").style.color = 'green';
-                document.getElementById("5img").src = 'passwd/passwd_green.svg';
+            this.checkPassword(value != "" && !value.includes(window.sessionStorage.getItem("email")), 5)
 
-            }
-            else{
-                document.getElementById("5req").style.color = '#888888';
-                document.getElementById("5img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-            }
-            // if(this.accetable)
-            //     this.disable = false
-            // else 
-            //     this.disable = true
             document.getElementById("error").innerText = "";
         }
     },
     methods:{
-        submit()
-        {
-            if(this.passwd === "1234")
-                this.$emit('close', this.passwd)
-            else
-                console.log("nene");
-        },
         exit()
         {
             this.$emit('verify')
@@ -168,7 +121,6 @@ export default {
             {
                 this.type = "text"
                 document.getElementById("visibilityIcon").src = "passwd/passwd_visible.svg";
-                
             }
             else
             {
@@ -178,13 +130,23 @@ export default {
         },
         async submit()
         {
-            if(!this.verified)
-            {
-                console.log("verify email")
-            }
             if(this.accetable)
             {
-                console.log("accept passwd")
+                const result = await setPassword({password: this.passwd}, window.sessionStorage.getItem("email"))
+                if(result == "")
+                    this.$emit('close')
+                else if(result == "Password already created")
+                {
+                    var element = document.getElementById("error");
+                    element.innerText = "Heslo pro účet " + window.sessionStorage.getItem("email") + " bylo již vytvořeno, pokračujte prosím v dalším kroku.";
+                    element.style.color = '#409230';
+                    element.style.width = '100%';
+                    setTimeout(() => {
+                        this.$emit('close')
+                    }, 5000);
+                }
+                else
+                    document.getElementById("error").innerText = result;
             }
             else
                 document.getElementById("error").innerText = "Heslo je ve špatném formátu.";
@@ -192,6 +154,21 @@ export default {
         },
         onEnter: function(){
             this.submit();
+        },
+        checkPassword(isValid, numberOfReq)
+        {
+            if(isValid)
+            {
+                document.getElementById(numberOfReq + "req").style.color = '#409230';
+                document.getElementById(numberOfReq + "img").src = 'passwd/passwd_green.svg';
+
+            }
+            else{
+                document.getElementById(numberOfReq + "req").style.color = '#888888';
+                document.getElementById(numberOfReq + "img").src = 'passwd/passwd_gray.svg';
+                this.disable = true
+                this.accetable = false
+            }
         }
     }
 }
@@ -226,27 +203,6 @@ li img{
 ul{
     margin-top: 0;
 }
-.error{
-    display: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    padding: 23px;
-    color: #E4162F;
-    background-color: #FBDCE0;
-    border: none;
-    display: flex;
-    flex-direction: column;
-}
-.errInfo{
-    align-items: center;
-    display: flex;
-}
-.content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-}
 button{
     width: 100%;
     height: 45px;
@@ -257,6 +213,34 @@ button{
 }
 .disabled {
     opacity: 0.5;
+}
+.errorVerif{
+    display: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 23px;
+    color: #E4162F;
+    background-color: #FBDCE0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+}
+.verifBtn{
+    width: 100%;
+}
+.errInfo{
+    align-items: center;
+    display: flex;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
 }
 .bottom .inUse{
     color: #409230;
@@ -303,11 +287,6 @@ P{
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-}
-.heading h2{
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 24px;
-    margin: 0;
 }
 .heading a{
     font-family: 'Inter', sans-serif;

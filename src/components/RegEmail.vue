@@ -126,12 +126,6 @@ P{
     align-items: baseline;
     justify-content: space-between;
 }
-.heading h2{
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 24px;
-    margin: 0;
-}
-
 .heading p, .desc, label{
     font-family: 'Inter', sans-serif;
 }

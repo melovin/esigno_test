@@ -18,7 +18,7 @@ export default {
             email: window.sessionStorage.getItem("email")
         }
     },
-    mounted() //this section should be redone to make it reusable (send message to component...)
+    mounted() //this section should be redone to make it reusable (send message to component, possibility to add button...)
     {
         if(this.status == "ok")
             {

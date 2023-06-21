@@ -58,4 +58,9 @@ input::placeholder {
 .success{
   border: 1px #409230 solid;
 }
+h2{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 24px;
+  margin: 0;
+}
 </style>

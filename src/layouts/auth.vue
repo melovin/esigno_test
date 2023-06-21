@@ -62,7 +62,6 @@ aside{
 }
 .text p{
     font-size: 24px;
-    
 }
 .logos img{
     margin-right: 13px;
