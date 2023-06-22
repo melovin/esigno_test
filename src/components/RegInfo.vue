@@ -2,7 +2,7 @@
     <div class="content" v-if="!passwdSet">
         <div class="errorVerif">
             <div class="errInfo">
-                <img id="status" src="status/status_mailError.svg" alt="status icon"/>
+                <img id="status" src="status/status_error.svg" alt="status icon"/>
                 <p id="message">Nastavte si prosím nejprve heslo.</p>       
             </div>
             <div class="verifBtn">
@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    <div class="wrapper" v-if="passwdSet">
+    <div class="wrapper" v-else>
         <div class="maincontent">
             <h2>Údaje k registrovanému účtu</h2>
             <p class="desc">Pro úspěšnou registraci prosím vyplňte následující údaje k <br/> vašemu účtu.</p>
@@ -36,7 +36,7 @@
                 <button :disabled="this.disable" type="button" @click="submit">Dokončit registraci</button>
             </div>
         </div>
-        <div class="bottom">
+        <div class="pc bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
                 <img src="@/assets/in_use.svg" alt="in use icon"/>
@@ -63,11 +63,11 @@ export default {
     },
     watch: {
         company(value){
-            this.disable = !(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
+            this.disable = !(value.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
         },
         name(value){
             const name = document.getElementById("errorname")
-            this.disable = !(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
+            this.disable = !(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(value) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
             if(!(/[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name)))
             {
                 name.innerText = "Jméno musí začínat velkým písmenem."
@@ -77,7 +77,7 @@ export default {
         },
         surname(value){
             const surname = document.getElementById("errorsurname")
-            this.disable = !(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
+            this.disable = !(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(value))
             if(!(/[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname)))
             {
                 surname.innerText = "Příjmení musí začínat velkým písmenem."
@@ -125,11 +125,14 @@ export default {
 .maincontent{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 325px;
+    max-width: 460px;
+    max-height: 370px;
+    height: 60vh;
+    width: 70vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 32px;
+    border-radius: 8px;
 }
 .heading{
     display: flex;
@@ -205,4 +208,24 @@ img{
     position: absolute;
     bottom: 32px;
 }
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        gap: 20px;
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .maincontent{
+        gap: 12px;
+    }
+  }
 </style>

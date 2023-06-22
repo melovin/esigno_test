@@ -1,7 +1,9 @@
 <template lang="cs">
-    <div class="retrySend">
-        <img id="status" alt="status icon"/>
-        <p id="message"></p>       
+    <div class="modal">
+        <div class="retrySend">
+            <img id="status" alt="status icon"/>
+            <p id="message"></p>       
+        </div>
     </div>
 </template>
 <script>
@@ -52,6 +54,9 @@ export default {
 }
 </script>
 <style scoped>
+.modal{
+    width: 100%;
+}
 .retrySend{
     display: none;
     font-family: 'Inter', sans-serif;
@@ -59,6 +64,8 @@ export default {
     padding: 23px 0 23px 12px ;
     align-items: center;
     border-radius: 4px;
+    margin-top: 15px;
+    padding-left: 32px;
 }
 .retrySend.warning{
     display: flex;

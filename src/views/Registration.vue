@@ -1,8 +1,8 @@
 <template lang="cs">
     <Reg-Email v-if="this.stepp == 1" @close="moveNext" />
-    <Reg-Verification v-else-if="this.stepp == 2" @close="moveNext" />
+    <Reg-Verification v-else-if="this.stepp == 2" @close="moveNext" @setEmail="goBack"/>
     <Reg-Passwd v-else-if="this.stepp == 3" @close="moveNext" @verify="verify" />
-    <Reg-Info v-else-if="this.stepp == 4" @save="save" @setpasswd="setpasswd"/>
+    <Reg-Info v-else-if="this.stepp == 4" @save="save" @setpasswd="goBack"/>
     <Reg-State v-else-if="this.stepp == 5" @tryagain="tryagain" @toLogin="toLogin"/>
 </template>
 <script>
@@ -42,7 +42,7 @@ export default {
                 window.sessionStorage.setItem("step","1");
             this.stepp = window.sessionStorage.getItem("step");
         },
-        setpasswd()
+        goBack()
         {
             window.sessionStorage.setItem("step",--this.stepp);
             this.stepp = window.sessionStorage.getItem("step")

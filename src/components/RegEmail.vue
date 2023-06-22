@@ -14,9 +14,9 @@
             <div>
                 <button :disabled="this.disable" type="button" @click="submit">Pokračovat</button>
             </div>
-            <infobox type="warning" text="Účet se zadaným e-mailem existuje, prosím <br/> přihlašte se nebo změňte heslo." time="5000" countdown="false" v-if="this.showModal" @closemodal="this.showModal=false" />
         </div>
-        <div class="bottom">
+        <infobox type="warning" text="Účet se zadaným e-mailem existuje, prosím <br/> přihlašte se nebo změňte heslo." time="5000" countdown="false" v-if="this.showModal" @closemodal="this.showModal=false" />
+        <div class="pc bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
                 <img src="@/assets/in_use.svg" />
@@ -48,6 +48,7 @@ export default {
                 this.disable = false;
             else
                 this.disable = true;
+
             document.getElementById("error").innerText = "";
             this.showModal = false;
         }
@@ -85,8 +86,10 @@ export default {
 .content{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 300px;
+    max-width: 460px;
+    max-height: 300px;
+    height: 30vh;
+    width: 30vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 32px;
@@ -100,8 +103,18 @@ export default {
 .heading p, .desc, label{
     font-family: 'Inter', sans-serif;
 }
+.heading p, label{
+    font-size: 12px;
+}
 .desc{
     font-size: 14px;
+}
+input{
+    height: 35px;
+    border: solid 1px #BDBDBD;
+    border-radius: 4px;
+    padding: 0;
+    width: calc(100% - 2px);
 }
 .bottom .inUse{
     color: #409230;
@@ -117,14 +130,25 @@ export default {
     position: absolute;
     bottom: 32px;
 }
-.heading p, label{
-    font-size: 12px;
-}
-input{
-    height: 35px;
-    border: solid 1px #BDBDBD;
-    border-radius: 4px;
-    padding: 0;
-    width: calc(100% - 2px);
-}
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        width: 60vw;
+        height: 40vh;
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .content{
+        width: 70vw;
+    }
+  }
 </style>

@@ -20,7 +20,7 @@
                 <button type="button" @click="tryagain">Zkusím to znovu</button>
             </div>
         </div>
-        <div class="bottom">
+        <div class="pc bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
                 <img src="@/assets/in_use.svg" alt="in use icon"/>
@@ -47,7 +47,8 @@ export default {
         tryagain(){
             this.$emit('tryagain')
         }
-    },emits: [
+    },
+    emits: [
         'tryagain',
         'toLogin'
     ]
@@ -57,8 +58,10 @@ export default {
 .maincontent{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 500px;
+    max-width: 460px;
+    max-height: 500px;
+    height: 67vh;
+    width: 60vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 32px;
@@ -66,6 +69,7 @@ export default {
     justify-content: center;
     font-family: 'Inter', sans-serif;
     text-align: center;
+    border-radius: 8px;
 } 
 .desc{
     font-size: 14px;
@@ -95,4 +99,24 @@ export default {
     position: absolute;
     bottom: 32px;
 }
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        gap: 20px;
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .maincontent{
+        gap: 12px;
+    }
+  }
 </style>

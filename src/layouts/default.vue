@@ -72,8 +72,6 @@ nav{
       flex-direction: column;
       align-items: flex-start;
     }
-  }
-  @media only screen and (max-width: 950px) {
     nav{
         flex-direction: column;
         align-items: center;

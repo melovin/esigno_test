@@ -33,7 +33,7 @@
             </div>
         </div>
         <infobox :type="this.status" :text="this.text" :time="this.time" :countdown="this.countdown" v-if="this.showModal" @closemodal="this.showModal=false" />
-        <div class="bottom">
+        <div class="pc bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
                 <img src="@/assets/in_use.svg" alt="in use icon"/>
@@ -48,6 +48,7 @@ import {verifyCode} from "@/services/user-service"
 export default {
     emits: [
         'close',
+        'setEmail'
     ],
     components:{
         infobox
@@ -57,10 +58,11 @@ export default {
             email: window.sessionStorage.getItem("email"),
             code: "",
             disable: true,
-            status: "ok",
-            text: "Nový kód Vám byl odeslán na e-mail: <br/>" + window.sessionStorage.getItem("email"),
-            time: 5000,
-            countdown: false,
+
+            // status: "ok",
+            // text: "Nový kód Vám byl odeslán na e-mail: <br/>" + window.sessionStorage.getItem("email"),
+            // time: 5000,
+            // countdown: false,
 
             // status: "error",
             // text: "Nastala chyba při odesílání e-mailu, prosím zkuste znovu.",
@@ -72,10 +74,10 @@ export default {
             // time: 5000,
             // countdown: false,
 
-            // status: "info",
-            // text: "Požádat o odeslání nového kódu bude možné za: ",
-            // time: 30000,
-            // countdown: true,
+            status: "info",
+            text: "Požádat o odeslání nového kódu bude možné za: ",
+            time: 30000,
+            countdown: true,
 
             showModal: false
         }
@@ -112,7 +114,16 @@ export default {
                     var x = document.querySelectorAll(".otp-input")
                     x.forEach(x => x.classList.add('success'))
                     setTimeout(() => {
-                        this.$emit('close', true)
+                        this.$emit('close')
+                    }, 3000);
+                }
+                else if(result == 'No registration for email [null] found')
+                {
+                    document.getElementById("error").innerHTML = "Prosím, zadejte nejdříve svůj email.";
+                    var x = document.querySelectorAll(".otp-input")
+                    x.forEach(x => x.classList.add('error'))
+                    setTimeout(() => {
+                        this.$emit('setEmail')
                     }, 3000);
                 }
                 else{
@@ -140,8 +151,10 @@ export default {
 .content{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 370px;
+    max-width: 460px;
+    max-height: 390px;
+    height: 54vh;
+    width: 42vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 32px;
@@ -187,4 +200,30 @@ export default {
     position: absolute;
     bottom: 32px;
 }
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        width: 60vw;
+        height: 40vh;
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .content{
+        width: 70vw;
+        height: 80vh;
+        gap: 20px;
+    }
+    .code{
+        gap: 2px;
+    }
+  }
 </style>

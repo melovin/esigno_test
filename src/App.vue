@@ -28,8 +28,10 @@ P{
   height: 100%;
 }
 .otp-input {
-  width: 60px;
-  height: 70px;
+  max-width: 60px;
+  max-height: 70px;
+  width: 11vw;
+  height: 9vh;
   padding: 5px;
   margin: 0 10px;
   font-size: 20px;
@@ -78,6 +80,8 @@ a, a:visited{
   align-items: center;
   margin-left: auto;
   margin-right: auto; 
+  flex-direction: column;
+  justify-content: center;
 }
 input:focus{
   outline: solid 1px #BDBDBD;
@@ -92,5 +96,25 @@ button{
   background-color: #327DDA;
   border: none;
   color:white;
+}
+.mobile{
+  display: none;
+}
+.pc{
+    display: block;
+}
+@media only screen and (max-width: 1300px) {
+  .mobile{
+    display: block;
+  }
+  .pc{
+      display: none;
+  }
+  h2{
+    font-size: 24px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  
 }
 </style>

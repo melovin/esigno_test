@@ -46,7 +46,7 @@
                     <img src="passwd/passwd_gray.svg" id="5img"/>
                     <p id="5req">Neobsahuje Vaši e-mailovou adresu</p>
                 </li>
-                <!-- there is no way to check this, info about account is on next the step -->
+                <!-- there is no way to check this, info about account is on the next step -->
                 <!-- <li> 
                     <img src="passwd/passwd_gray.svg"/>
                     <p>Neobsahuje Vaše jméno a příjmení</p>
@@ -56,7 +56,7 @@
                 <button :disabled="this.disable" type="button" @click="submit">Vytvořit a pokračovat</button>
             </div>
         </div>
-        <div class="bottom">
+        <div class="pc bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
                 <img src="@/assets/in_use.svg" alt="in use icon"/>
@@ -86,7 +86,6 @@ export default {
         const result = await verifyCode({code: ""}, window.sessionStorage.getItem("email"));
         if(result !== "Email already verified")
             this.verified = false;
-
     },
     watch: {
         passwd(value){
@@ -184,8 +183,10 @@ export default {
 .maincontent{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 300px;
+    max-width: 460px;
+    max-height: 415px;
+    height: 70vh;
+    width: 70vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 32px;
@@ -272,5 +273,25 @@ li img{
     position: absolute;
     bottom: 32px;
 }
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        gap: 20px;
 
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .maincontent{
+        gap: 12px;
+    }
+  }
 </style>

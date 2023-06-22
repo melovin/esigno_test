@@ -29,17 +29,16 @@
             <div>
                 <button :disabled="this.disabled" type="button" @click="submit">Přihlásit se</button>
             </div>
-            <infobox type="error" text="Zadali jste nesprávné přihlašovací údaje." time="5000" countdown="false" v-if="this.showModal" @closemodal="this.showModal=false" />
-            <div class="bottom">
+        </div>
+        <Login-State v-else @tryagain="tryagain"/>
+        <infobox type="error" text="Zadali jste nesprávné přihlašovací údaje." time="5000" countdown="false" v-if="this.showModal" @closemodal="this.showModal=false" />
+            <div class="pc bottom">
                 <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
                 <div class="inUse">
                     <img src="@/assets/in_use.svg" alt="in use icon"/>
                     <p>Všechny systémy v provozu</p>
                 </div>
             </div>
-        </div>
-        <Login-State v-else @tryagain="tryagain"/>
-
     </div>
 </template>
 <script>
@@ -102,7 +101,7 @@ export default {
                     this.showRobot = false;
             }
             else
-                document.getElementById("error").innerText = "Uživatelské jméno nebo heslo není správné";
+                this.showModal = true;
                  
         },
         onEnter: function(){
@@ -139,8 +138,10 @@ export default {
 .content{
     display: flex;
     flex-direction: column;
-    width: 460px;
-    height: 300px;
+    max-width: 460px;
+    max-height: 300px;
+    height: 70vh;
+    width: 70vw;
     padding: 32px;
     background-color: #F7F9FA;
     gap: 15px;
@@ -210,4 +211,27 @@ img{
     position: absolute;
     bottom: 32px;
 }
+@media only screen and (max-width: 1300px) {
+    .mobile{
+      display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .content{
+        justify-content: center;
+        gap: 20px;
+    }
+    .wrapper{
+        height: 100%;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .maincontent{
+        gap: 12px;
+    }
+    .heading{
+        flex-direction: column;
+    }
+  }
 </style>
