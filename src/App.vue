@@ -96,6 +96,7 @@ button{
   background-color: #327DDA;
   border: none;
   color:white;
+  cursor: pointer;
 }
 .mobile{
   display: none;

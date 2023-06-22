@@ -18,7 +18,7 @@
                 <div class="inputs">
                     <div>
                         <label for="name">Jméno</label>
-                        <input autocomplete="on" type="text" name="name" id="name" v-model="name" @keydown.enter="onEnter" />
+                        <input autofocus autocomplete="on" type="text" name="name" id="name" v-model="name" @keydown.enter="onEnter" />
                         <p id="errorname"></p>
                     </div>
                     <div>

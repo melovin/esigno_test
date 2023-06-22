@@ -134,7 +134,7 @@ export default {
             }
             else
             {
-                document.getElementById("error").innerText = "Neplatná délka, kód musí obsahovat 4 číslice";
+                document.getElementById("error").innerText = "Neplatná délka, kód musí obsahovat 4 znaky";
                 var x = document.querySelectorAll(".otp-input")
                 x.forEach(x => x.classList.add('error'))
             }

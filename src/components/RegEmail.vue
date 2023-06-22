@@ -8,7 +8,7 @@
             <p class="desc">Na e-mail Vám bude zaslán ověřovací kód. Po ověření <br/>prosím pokračujte v dalších krocích registrace.</p>
             <div>
                 <label for="email">E-mail</label>
-                <input autocomplete="on" type="email" name="email" id="email" v-model="email" @keydown.enter="onEnter" />
+                <input autofocus autocomplete="on" type="email" name="email" id="email" v-model="email" @keydown.enter="onEnter" />
                 <p id="error"></p>
             </div>
             <div>

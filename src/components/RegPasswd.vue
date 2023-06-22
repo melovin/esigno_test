@@ -2,7 +2,7 @@
     <div class="content" v-if="!verified">
         <div class="errorVerif">
             <div class="errInfo">
-                <img id="status" src="status/status_mailError.svg" alt="status icon"/>
+                <img id="status" src="status/status_error.svg" alt="status icon"/>
                 <p id="message">Ověřte prosím nejprve svůj e-mail.</p>       
             </div>
             <div class="verifBtn">
@@ -20,7 +20,7 @@
             <div>
                 <label for="passwd">Heslo</label>
                 <div class="bcg">
-                    <input autocomplete="on" :type="this.type" name="password" id="passwd" v-model="passwd" @keydown.enter="onEnter" />
+                    <input autofocus autocomplete="on" :type="this.type" name="password" id="passwd" v-model="passwd" @keydown.enter="onEnter" />
                     <img id="visibilityIcon" src="passwd/passwd_invisible.svg" @click="changeVisibility"/>
                 </div>
                 <p id="error"></p>

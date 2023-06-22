@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="maincontent" v-if="this.completed === 'true'">
             <picture>
-                <img src="../assets/happyRobot.svg" />
+                <img src="../assets/happyRobot.svg" alt="veselý robot"/>
             </picture>
             <h2>Registrace proběhla úspěšně</h2>
             <p class="desc">Děkujeme váš profil byl úspěšně založen. <br/> Nyní můžete přejít do portálu Esigno.</p>
@@ -12,7 +12,7 @@
         </div>
         <div class="maincontent" v-else>
             <picture>
-                <img src="../assets/sadRobot.svg" />
+                <img src="../assets/sadRobot.svg" alt="smutný robot"/>
             </picture>
             <h2>Registrace se nezdařila</h2>
             <p class="desc">Vás profil se nepodařilo založit z důvodu chyby na serveru. <br/> Prosím opakujte proces znovu nebo nás kontaktujte na <br/> e-mail <a href="mailto:podpora@esigno.com"><b>podpora@esigno.com.</b></a></p>

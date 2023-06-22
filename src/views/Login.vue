@@ -7,7 +7,7 @@
             </div>
             <div class="inputs">
                 <label for="email">E-mail</label>
-                <input autocomplete="on" type="email" name="email" id="email" v-model="email" @keydown.enter="onEnter" />
+                <input autofocus autocomplete="on" type="email" name="email" id="email" v-model="email" @keydown.enter="onEnter" />
                 <p id="errormail"></p>
                 <div>
                     <div class="passwdLabel">
@@ -177,6 +177,9 @@ export default {
 .remember input{
     height: 15px;
     width: 15px;
+}
+.remember p{
+    user-select: none;
 }
 .inputs{
     display: flex;

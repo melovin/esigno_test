@@ -2,7 +2,7 @@
     <div class="wrapper" v-if="this.completed">
         <div class="maincontent" >
             <picture>
-                <img src="../assets/happyRobot.svg" />
+                <img src="../assets/happyRobot.svg" alt="veselý robot"/>
             </picture>
             <h2>Přihlášení proběhlo úspěšně</h2>
             <p class="desc">Prosím vyčkejte na přesměrování....</p>
@@ -13,7 +13,7 @@
     <div class="wrapper" v-else>
         <div class="maincontent">
             <picture>
-                <img src="../assets/sadRobot.svg" />
+                <img src="../assets/sadRobot.svg" alt="smutný robot"/>
             </picture>
             <h2>přihlášení se nezdařilo</h2>
             <p class="desc">Přihlášení neproběhlo z důvodu chyby na serveru. <br/> Prosím opakujte proces znovu nebo nás kontaktujte na <br/> e-mail <a href="mailto:podpora@esigno.com"><b>podpora@esigno.com.</b></a></p>

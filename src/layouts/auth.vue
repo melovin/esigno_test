@@ -2,8 +2,8 @@
     <div class="content">
         <aside>
              <div class="info">
-                <picture @click="this.$router.push('/')">
-                    <img class="logo" src="@/assets/logo.svg"/>
+                <picture>
+                    <img @click="this.$router.push('/')" alt="logo" class="logo" src="@/assets/logo.svg"/>
                 </picture>
                 <div class="text">
                     <h1>Digitální kancelář</h1>
@@ -49,7 +49,7 @@ aside{
     background: linear-gradient(82.92deg, #545CE4 0%, #E698F8 0.01%, #499AF7 100%);
     width: 50%;
 }
-picture{
+img{
     cursor: pointer;
 }
 .info{
