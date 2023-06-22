@@ -26,7 +26,6 @@ export async function verifyCode(data = {}, mail)
 }
 export async function setPassword(data = {}, mail)
 {
-    console.log(data);
     const url = process.env.VUE_APP_API_URL + '/registration/' + mail + '/password';
     const res = await fetch(url, {
     method: "POST",
@@ -50,4 +49,20 @@ export async function setDetails(data = {}, mail)
     body: JSON.stringify(data) 
     }); 
     return await res.text();
+}
+export async function Login(data = {})
+{
+    const url = process.env.VUE_APP_API_URL + '/users';
+    const res = await fetch(url, {
+    method: "POST",
+    headers: {
+        "accept": "*/*",
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data) 
+    }); 
+    return await res.text();
+}
+export function isAuth(){
+
 }

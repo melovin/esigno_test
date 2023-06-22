@@ -6,8 +6,8 @@
                 <a href="">Zpět na přihlášení</a>
             </div>
             <p class="desc">Potřebujeme ověřit vaši identitu, zadejte prosím ověřovací <br/> PIN kód, který jsme vám poslali na e-mail <br/> <span>{{this.email}}</span>.</p>
-            <div class="verif">
-                <div class="code">
+            <div class="code">
+                <div class="verify">
                     <v-otp-input
                     id="codeInput"
                     ref="otpInput"
@@ -21,8 +21,6 @@
                     :placeholder="['', '', '', '']"
                     @keydown.enter="onEnter"
                     />
-                    <!-- @on-change="handleOnChange"
-                    @on-complete="handleOnComplete" -->
                 </div>
                 <p id="error"></p>
             </div>
@@ -33,8 +31,8 @@
                 <p>Nepřišel Vám e-mail? Prosím zkontrolujte spam.</p>
                 <a @click="this.showModal = true">Zaslat znovu kód</a>
             </div>
-            <infobox :data="this.status" v-if="this.showModal" @closemodal="this.showModal=false" />
         </div>
+        <infobox :type="this.status" :text="this.text" :time="this.time" :countdown="this.countdown" v-if="this.showModal" @closemodal="this.showModal=false" />
         <div class="bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
             <div class="inUse">
@@ -60,6 +58,25 @@ export default {
             code: "",
             disable: true,
             status: "ok",
+            text: "Nový kód Vám byl odeslán na e-mail: <br/>" + window.sessionStorage.getItem("email"),
+            time: 5000,
+            countdown: false,
+
+            // status: "error",
+            // text: "Nastala chyba při odesílání e-mailu, prosím zkuste znovu.",
+            // time: 5000,
+            // countdown: false,
+
+            // status: "warning",
+            // text: "Účet se zadaným e-mailem existuje, prosím přihlašte se nebo změňte heslo.",
+            // time: 5000,
+            // countdown: false,
+
+            // status: "info",
+            // text: "Požádat o odeslání nového kódu bude možné za: ",
+            // time: 30000,
+            // countdown: true,
+
             showModal: false
         }
     },
@@ -120,29 +137,41 @@ export default {
 <style scoped>
 /*font-family: 'Inter', sans-serif;*/
 /*font-family: 'Nunito Sans', sans-serif;*/
-
-.show{
-    display: flex;
-}
-.verif{
+.content{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 460px;
+    height: 370px;
+    padding: 32px;
+    background-color: #F7F9FA;
+    gap: 32px;
+    border-radius: 8px;
 }
-.tryagain{
+.heading{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.heading p, .heading a, .desc, label, .tryagain{
     font-family: 'Inter', sans-serif;
+}
+.heading p, .heading a, label{
+    font-size: 12px;
+}
+.desc, .tryagain{
     font-size: 14px;
 }
-.tryagain a{
-    cursor: pointer;
+.desc span{
+    font-weight: bold;
+}
+.verify{
+    display: flex;
+    justify-content: center;
 }
 .code{
     display: flex;
-    justify-content: center;
-}
-.disabled {
-    opacity: 0.5;
+    flex-direction: column;
+    align-items: center;
 }
 .bottom .inUse{
     color: #409230;
@@ -157,79 +186,5 @@ export default {
     gap: 60px;
     position: absolute;
     bottom: 32px;
-}
-#error{
-    color: red;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    margin-top: 5px;
-}
-.wrapper{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-.content{
-    display: flex;
-    flex-direction: column;
-    width: 460px;
-    height: 300px;
-    padding: 32px;
-    background-color: #F7F9FA;
-    gap: 32px;
-}
-P{
-    margin: 0;
-}
-.heading{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-}
-.heading a{
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-.heading p, .desc, label{
-    font-family: 'Inter', sans-serif;
-}
-label{
-    display: block;
-}
-.heading p, label{
-    font-size: 12px;
-}
-.desc{
-    font-size: 14px;
-}
-.desc span{
-    font-weight: bold;
-}
-a, a:visited{
-    color: #327DDA;
-}
-input{
-    height: 30px;
-    border: solid 1px #BDBDBD;
-    border-radius: 4px;
-    padding: 0;
-    width: calc(100% - 2px);
-}
-input:focus{
-    outline: solid 1px #BDBDBD;
-}
-button{
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    background-color: #327DDA;
-    border: none;
-    color:white;
-}
-button:disabled{
-    opacity: 50%;
 }
 </style>

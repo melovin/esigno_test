@@ -12,6 +12,12 @@ const routes = [
     name: 'registration',
     meta: {layout: 'auth'},
     component: () => import('../views/Registration.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    meta: {layout: 'auth'},
+    component: () => import('../views/Login.vue')
   }
 ]
 

@@ -39,7 +39,6 @@ export default {
 aside{
     background: linear-gradient(82.92deg, #545CE4 0%, #E698F8 0.01%, #499AF7 100%);;
     width: 50%;
-    height: 100%;
 }
 .info{
     margin-left: 150px;

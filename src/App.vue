@@ -21,6 +21,9 @@ html, body{
   padding: 0;
   height: 100%;
 }
+P{
+  margin: 0;
+}
 #app {
   height: 100%;
 }
@@ -30,7 +33,7 @@ html, body{
   padding: 5px;
   margin: 0 10px;
   font-size: 20px;
-  border-radius: 4px;
+  border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   text-align: center;
   font-family: 'Inter', sans-serif;
@@ -40,8 +43,6 @@ html, body{
 .otp-input:focus{
   outline: none;
 }
-/* Background colour of an input field with value */
-
 .otp-input::-webkit-inner-spin-button,
 .otp-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -60,7 +61,36 @@ input::placeholder {
 }
 h2{
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 24px;
   margin: 0;
+}
+a, a:visited{
+  color: #327DDA;
+  cursor: pointer;
+}
+#error, #errorname, #errorsurname{
+  color: red;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.wrapper{
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto; 
+}
+input:focus{
+  outline: solid 1px #BDBDBD;
+}
+button:disabled{
+  opacity: 50%;
+}
+button{
+  width: 100%;
+  height: 45px;
+  border-radius: 4px;
+  background-color: #327DDA;
+  border: none;
+  color:white;
 }
 </style>

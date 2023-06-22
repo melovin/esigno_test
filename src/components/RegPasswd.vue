@@ -83,14 +83,13 @@ export default {
     },
     async created()
     {
-        const result = await verifyCode({code: "0000"}, window.sessionStorage.getItem("email"));
+        const result = await verifyCode({code: ""}, window.sessionStorage.getItem("email"));
         if(result !== "Email already verified")
             this.verified = false;
 
     },
     watch: {
         passwd(value){
-            //regex na heslo
             this.disable = false
             this.accetable = true;
 
@@ -176,6 +175,40 @@ export default {
 <style scoped>
 /*font-family: 'Inter', sans-serif;*/
 /*font-family: 'Nunito Sans', sans-serif;*/
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+.maincontent{
+    display: flex;
+    flex-direction: column;
+    width: 460px;
+    height: 300px;
+    padding: 32px;
+    background-color: #F7F9FA;
+    gap: 32px;
+    border-radius: 8px;
+}
+
+.heading{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.heading p, .heading a, .desc, label{
+    font-family: 'Inter', sans-serif;
+}
+.heading p, .heading a, label{
+    font-size: 12px;
+}
+.desc{
+    font-size: 14px;
+}
+.desc span{
+    font-weight: bold;
+}
 .bcg{
     display: flex;
 }
@@ -191,6 +224,9 @@ img{
     margin-left: -40px;
     cursor: pointer;
 }
+ul{
+    margin-top: 0;
+}
 li{
     display: flex;
     font-family: 'Inter', sans-serif;
@@ -199,20 +235,6 @@ li{
 }
 li img{
     margin-right: 5px;
-}
-ul{
-    margin-top: 0;
-}
-button{
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    background-color: #327DDA;
-    border: none;
-    color:white;
-}
-.disabled {
-    opacity: 0.5;
 }
 .errorVerif{
     display: none;
@@ -236,12 +258,6 @@ button{
     align-items: center;
     display: flex;
 }
-.content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-}
 .bottom .inUse{
     color: #409230;
     display: flex;
@@ -256,64 +272,5 @@ button{
     position: absolute;
     bottom: 32px;
 }
-#error{
-    color: red;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    margin-top: 5px;
-    width: 50%;
-}
-.wrapper{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-.maincontent{
-    display: flex;
-    flex-direction: column;
-    width: 460px;
-    height: 300px;
-    padding: 32px;
-    background-color: #F7F9FA;
-    gap: 32px;
-}
-P{
-    margin: 0;
-}
-.heading{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-}
-.heading a{
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-.heading p, .desc, label{
-    font-family: 'Inter', sans-serif;
-}
-label{
-    display: block;
-}
-.heading p, label{
-    font-size: 12px;
-}
-.desc{
-    font-size: 14px;
-}
-.desc span{
-    font-weight: bold;
-}
-a, a:visited{
-    color: #327DDA;
-}
-input:focus{
-    outline: solid 1px #BDBDBD;
-}
-button:disabled{
-    opacity: 50%;
-}
+
 </style>

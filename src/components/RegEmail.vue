@@ -3,7 +3,7 @@
         <div class="content">
             <div class="heading">
                 <h2>Registrace</h2>
-                <p>Máte účet? <a href="">Přihlásit se</a></p>
+                <p>Máte účet? <a><router-link to="/login">Přihlásit se</router-link></a></p>
             </div>
             <p class="desc">Na e-mail Vám bude zaslán ověřovací kód. Po ověření <br/>prosím pokračujte v dalších krocích registrace.</p>
             <div>
@@ -14,7 +14,7 @@
             <div>
                 <button :disabled="this.disable" type="button" @click="submit">Pokračovat</button>
             </div>
-            <infobox v-if="this.showModal" @closemodal="this.showModal=false" />
+            <infobox type="warning" text="Účet se zadaným e-mailem existuje, prosím <br/> přihlašte se nebo změňte heslo." time="5000" countdown="false" v-if="this.showModal" @closemodal="this.showModal=false" />
         </div>
         <div class="bottom">
             <p><a href="#">Prohlášení o GDPR</a> | <a href="#">Veřejné obchodní podmínky</a></p>
@@ -82,6 +82,27 @@ export default {
 <style scoped>
 /*font-family: 'Inter', sans-serif;*/
 /*font-family: 'Nunito Sans', sans-serif;*/
+.content{
+    display: flex;
+    flex-direction: column;
+    width: 460px;
+    height: 300px;
+    padding: 32px;
+    background-color: #F7F9FA;
+    gap: 32px;
+    border-radius: 8px;
+}
+.heading{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.heading p, .desc, label{
+    font-family: 'Inter', sans-serif;
+}
+.desc{
+    font-size: 14px;
+}
 .bottom .inUse{
     color: #409230;
     display: flex;
@@ -96,50 +117,8 @@ export default {
     position: absolute;
     bottom: 32px;
 }
-#error{
-    color: red;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-.wrapper{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-.content{
-    display: flex;
-    flex-direction: column;
-    width: 460px;
-    height: 300px;
-    padding: 32px;
-    background-color: #F7F9FA;
-    gap: 32px;
-}
-P{
-    margin: 0;
-}
-.heading{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-}
-.heading p, .desc, label{
-    font-family: 'Inter', sans-serif;
-}
-label{
-    display: block;
-}
 .heading p, label{
     font-size: 12px;
-}
-.desc{
-    font-size: 14px;
-}
-a, a:visited{
-    color: #327DDA;
 }
 input{
     height: 35px;
@@ -147,19 +126,5 @@ input{
     border-radius: 4px;
     padding: 0;
     width: calc(100% - 2px);
-}
-input:focus{
-    outline: solid 1px #BDBDBD;
-}
-button{
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    background-color: #327DDA;
-    border: none;
-    color:white;
-}
-button:disabled{
-    opacity: 50%;
 }
 </style>

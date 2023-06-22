@@ -30,6 +30,7 @@
                 <label for="company">Společnost</label>
                 <input autocomplete="on" type="text" name="company" id="company" v-model="company" @keydown.enter="onEnter" />
                 <p id="error"></p>
+                <p class="perm">Registrací vyjadřujete souhlas s <a>všeobecnými obchodními <br/> podmínkami</a> a <a>zásadami ochrany osobních údajů</a>.</p>
             </div>
             <div>
                 <button :disabled="this.disable" type="button" @click="submit">Dokončit registraci</button>
@@ -48,8 +49,8 @@
 import { setDetails } from '@/services/user-service';
 export default {
     emits: [
-        'close',
-        'setpasswd'
+        'setpasswd',
+        'save'
     ],
     data(){
         return{
@@ -92,37 +93,22 @@ export default {
         },
         async submit()
         {
-            if(!(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname)))
+            if(this.company.length > 0 && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.name) && /[A-ZĚŠČŘŽÝÁÍÉŤĎÓŇŮÚ][a-zěščřžýáíéťďóňůú]*/g.test(this.surname))
             {
                 const result = await setDetails({givenName: this.name,surname: this.surname,company: this.company}, window.sessionStorage.getItem("email"))
                 if(result == "")
-                    this.$emit('close')
+                    this.$emit('save',true)
                 else if(result == "No registration for email ["+window.sessionStorage.getItem("email") +"] found")
                     this.passwdSet = false;
                 else
-                    document.getElementById("error").innerText = result;
+                    this.$emit('save',false)
             }
             else
-                document.getElementById("error").innerText = "Všechna pole jsou povinná.";
+                document.getElementById("error").innerText = "Všechna pole jsou povinná. Jméno a příjmení musí začínat velkým písmenem";
                  
         },
         onEnter: function(){
             this.submit();
-        },
-        checkPassword(isValid, numberOfReq)
-        {
-            if(isValid)
-            {
-                document.getElementById(numberOfReq + "req").style.color = '#409230';
-                document.getElementById(numberOfReq + "img").src = 'passwd/passwd_green.svg';
-
-            }
-            else{
-                document.getElementById(numberOfReq + "req").style.color = '#888888';
-                document.getElementById(numberOfReq + "img").src = 'passwd/passwd_gray.svg';
-                this.disable = true
-                this.accetable = false
-            }
         }
     }
 }
@@ -130,6 +116,38 @@ export default {
 <style scoped>
 /*font-family: 'Inter', sans-serif;*/
 /*font-family: 'Nunito Sans', sans-serif;*/
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+.maincontent{
+    display: flex;
+    flex-direction: column;
+    width: 460px;
+    height: 325px;
+    padding: 32px;
+    background-color: #F7F9FA;
+    gap: 32px;
+}
+.heading{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.heading p, .heading a, .desc, label, .perm{
+    font-family: 'Inter', sans-serif;
+}
+.heading p, .heading a, label, .perm{
+    font-size: 12px;
+}
+.desc{
+    font-size: 14px;
+}
+.desc span{
+    font-weight: bold;
+}
 .inputs{
     display: flex;
     width: 100%;
@@ -139,9 +157,6 @@ export default {
 .inputs div{
     flex: 1;
 }
-.bcg{
-    display: flex;
-}
 input{
     height: 35px;
     border: solid 1px #BDBDBD;
@@ -149,33 +164,6 @@ input{
     padding: 0;
     width: calc(100% - 2px);
     font-size: 14px;
-}
-img{
-    margin-left: -40px;
-    cursor: pointer;
-}
-li{
-    display: flex;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: #888888;
-}
-li img{
-    margin-right: 5px;
-}
-ul{
-    margin-top: 0;
-}
-button{
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    background-color: #327DDA;
-    border: none;
-    color:white;
-}
-.disabled {
-    opacity: 0.5;
 }
 .errorVerif{
     display: none;
@@ -199,11 +187,9 @@ button{
     align-items: center;
     display: flex;
 }
-.content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
+img{
+    margin-left: -40px;
+    cursor: pointer;
 }
 .bottom .inUse{
     color: #409230;
@@ -218,65 +204,5 @@ button{
     gap: 60px;
     position: absolute;
     bottom: 32px;
-}
-#error{
-    color: red;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    margin-top: 5px;
-    width: 50%;
-}
-.wrapper{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-.maincontent{
-    display: flex;
-    flex-direction: column;
-    width: 460px;
-    height: 300px;
-    padding: 32px;
-    background-color: #F7F9FA;
-    gap: 32px;
-}
-P{
-    margin: 0;
-}
-.heading{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-}
-.heading a{
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-.heading p, .desc, label{
-    font-family: 'Inter', sans-serif;
-}
-label{
-    display: block;
-}
-.heading p, label{
-    font-size: 12px;
-}
-.desc{
-    font-size: 14px;
-}
-.desc span{
-    font-weight: bold;
-}
-a, a:visited{
-    color: #327DDA;
-}
-input:focus{
-    outline: solid 1px #BDBDBD;
-}
-button:disabled{
-    opacity: 50%;
 }
 </style>

@@ -1,76 +1,53 @@
 <template lang="cs">
     <div class="retrySend">
-        <img ref="hihi" id="status" src="" alt="status icon"/>
-        <p ref="haha" id="message"></p>       
+        <img id="status" alt="status icon"/>
+        <p id="message"></p>       
     </div>
 </template>
 <script>
 export default {
     props: [
-        'data'
+        'type',
+        'text',
+        'time',
+        'countdown'
     ],
     emits:[
         'closemodal'
     ],
-    data(){
-        return{
-            status: this.data,
-            email: window.sessionStorage.getItem("email")
-        }
-    },
-    mounted() //this section should be redone to make it reusable (send message to component, possibility to add button...)
-    {
-        if(this.status == "ok")
-            {
-                var x = document.querySelectorAll(".retrySend");
-                x.forEach( x => x.classList.add("ok"));
-                document.getElementById("message").innerHTML = "Nový kód Vám byl odeslán na e-mail: <br/>" + this.email
-                document.getElementById("status").src="status/status_positive.svg";
-                setTimeout(() => {
-                    var x = document.querySelectorAll(".retrySend");
-                    x.forEach( x => x.classList.remove("ok"));
-                    this.$emit('closemodal', true)
-                }, 5000);
-            }
-            else if(this.status == "error")
-            {
-                var x = document.querySelectorAll(".retrySend");
-                x.forEach( x => x.classList.add("error"));
-                document.getElementById("message").innerHTML = "Nastala chyba při odesílání e-mailu, prosím zkuste to znovu."
-                document.getElementById("status").src="status/status_error.svg";
-                setTimeout(() => {
-                    var x = document.querySelectorAll(".retrySend");
-                    x.forEach( x => x.classList.remove("error"));
-                    this.$emit('closemodal', true)
-                }, 5000);
-            }
-            else if(this.status == "info"){
-                console.log("opeeen")
-                var display = 30;
-                var mess = document.getElementById("message");
-                mess.innerText = "Požádat o odeslání nového kódu bude možné za: " + display-- + 's';
-                var y = setInterval(function() {
-                    mess.innerText = "Požádat o odeslání nového kódu bude možné za: " + display-- + 's';
-                }, 1000);
+    mounted(){
+        var x = document.querySelectorAll(".retrySend");
+        x.forEach( x => x.classList.add(this.type));
+        document.getElementById("status").src="status/status_"+ this.type + ".svg";
+        if(this.countdown == true)
+        {
+            var display = this.time / 1000
+            //in timeout this.text was not working :(
+            var text = this.text
+            var mess = document.getElementById("message");           
+            mess.innerHTML = `${text} ${display--}s`;
+            
+            var y = setInterval(function() {
+                mess.innerHTML = `${text} ${display--}s`;
+            }, 1000);
 
-                var x = document.querySelectorAll(".retrySend");
-                x.forEach( x => x.classList.add("info"));          
-                var img = document.getElementById("status");   
-                img.src="status/status_info.svg";
-                
-                setTimeout(() => {
+            setTimeout(() => {
                     var x = document.querySelectorAll(".retrySend");
-                    x.forEach( x => x.classList.remove("info"));
+                    x.forEach( x => x.classList.remove(this.type));
                     clearInterval(y)
                     this.$emit('closemodal', true)
-                }, 30000);
-            }
-            else{
-                document.getElementById("status").src="status/status_mailError.svg";
-                document.getElementById("message").innerHTML = "Účet se zadaným e-mailem existuje, prosím <br/> přihlaste se nebo změňte heslo.";
+                }, this.time);
+        }
+        else
+        {
+            document.getElementById("message").innerHTML = this.text
+            setTimeout(() => {
                 var x = document.querySelectorAll(".retrySend");
-                x.forEach( x => x.classList.add("emailError"));
-            }
+                x.forEach( x => x.classList.remove(this.type));
+                this.$emit('closemodal', true)
+            }, this.time);
+        }
+            
     }
 }
 </script>
@@ -81,8 +58,9 @@ export default {
     font-size: 14px;
     padding: 23px 0 23px 12px ;
     align-items: center;
+    border-radius: 4px;
 }
-.retrySend.emailError{
+.retrySend.warning{
     display: flex;
     color: #E47410;
     background-color: #FBEADB;
